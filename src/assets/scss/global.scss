@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import "variables";
+@import "themes";
+@import "components";
+
+// Global utilities
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+body {
+  padding-right: 0 !important;
+  overflow: hidden !important;
+}
+
+// Adaptive Placeholder Color
+.form-control::placeholder,
+.form-select::placeholder,
+textarea::placeholder {
+  color: var(--bs-secondary-color, #9ca3af) !important;
+  opacity: 0.7;
+}
+
+// Compact Form Inputs Globally
+.form-control, 
+.form-select, 
+.input-group-text,
+.btn {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+// Popups above the admin sidebar / rail menu (z-index 1060): Bootstrap's defaults (1050 / 1055)
+// left the sidebar on top of large modals (media preview) and outside the dimmed backdrop.
+.modal-backdrop {
+  --bs-backdrop-zindex: 1070;
+}
+
+.modal {
+  --bs-modal-zindex: 1075;
+}
+
+// Editor header (breadcrumb, title, Save / Cancel ...): stays at the top of <main> while the
+// form scrolls, so the buttons are always in the same place. <main> has p-4 (1.5rem), hence the
+// negative top / margins (full width, flush with the top). AdminLayout publishes its height as
+// --ta-sticky-offset for other sticky panels (Page Builder blocks, side cards) to sit under it.
+.ta-editor-bar {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 1020;
+  margin: -1.5rem -1.5rem 1.5rem !important;
+  padding: 0.85rem 1.5rem;
+  background: var(--cms-body-bg);
+  border-bottom: 1px solid var(--bs-border-color);
+  box-shadow: 0 8px 14px -12px rgba(0, 0, 0, 0.25);
+}
+
+// Sticky panels inside an editor: 1rem below the editor header (sticky `top` counts from inside
+// <main>'s 1.5rem padding, hence the -0.5rem).
+.ta-below-bar {
+  top: calc(var(--ta-sticky-offset, 0px) - 0.5rem) !important;
+}
+
+// Editor tabs (General Info / Page Builder / Live Preview / SEO ...): stick right under the editor
+// header, so they never scroll away. AdminLayout adds their height to --ta-sticky-offset (the
+// panels above then sit under the tabs) and sets --ta-bar-h (the header alone).
+.ta-sticky-tabs {
+  position: sticky;
+  top: calc(var(--ta-bar-h, 0px) - 1.5rem);
+  z-index: 1015;
+  background: var(--cms-body-bg) !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  box-shadow: 0 8px 12px -12px rgba(0, 0, 0, 0.25);
+}
+
+// Jodit editors: content pasted with fixed widths / nowrap (older saves, or HTML typed in) must not
+// widen the editor and the Page Builder panel around it. New pastes are cleaned (cleanPastedHtml.js).
+.jodit-container:not(.jodit_inline) {
+  max-width: 100%;
+}
+
+.jodit-wysiwyg {
+  overflow-wrap: break-word;
+  overflow-x: auto;
+
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  :not(img)[style*="width"] {
+    width: auto !important;
+    min-width: 0 !important;
+  }
+
+  [style*="white-space"]:not(pre) {
+    white-space: normal !important;
+  }
+
+  table,
+  table[style] {
+    width: 100% !important;
+    border-collapse: collapse;
+  }
+
+  td,
+  th {
+    border: 1px solid #dee2e6;
+    padding: 6px 8px;
+    vertical-align: top;
+  }
+}
+
+// Block preview popup (page-builder/BlockPreviewModal.jsx): wide enough for the desktop layout.
+.modal-dialog.pb-block-preview-modal {
+  --bs-modal-width: min(1400px, 96vw);
+  max-width: min(1400px, 96vw);
+}
