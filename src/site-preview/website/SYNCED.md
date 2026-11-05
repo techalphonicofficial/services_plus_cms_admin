@@ -1,18 +1,20 @@
 # Copied from the website. Do not edit here.
 
-Edit the website (../taxalphonic-dynamic-frontend) and run `npm run sync-preview`.
+Edit the website (../../Documents/GitHub/services_plus_fr/src) and run `npm run sync-preview`.
 
-Last sync: 2026-10-30T12:42:15.803Z
+Last sync: 2026-11-04T09:12:33.397Z
 
+- components/tax-alphonic/siteStyles.js
 - service/servicePreview.js
 - service/servicePageService.js
 - service/serviceLocationsService.js
 - service/homePageService.js
 - service/homeContentService.js
 - service/pageService.js
-- service/journeyService.js
 - service/toolsService.js
+- service/journeyService.js
 - service/siteSettingsService.js
+- lib/siteConfig.js
 - components/tax-alphonic/pages/ApiServicePage.jsx
 - lib/sanitizeHtml.js
 - components/tax-alphonic/forms/CmsForm.jsx
@@ -24,15 +26,25 @@ Last sync: 2026-10-30T12:42:15.803Z
 - components/tax-alphonic/packages/PackagesBlock.jsx
 - components/tax-alphonic/home/HomeSections.jsx
 - components/tax-alphonic/blocks/BlockBackground.jsx
+- components/tax-alphonic/blocks/AnyBlock.jsx
 - components/tax-alphonic/blocks/CommonBlocks.jsx
 - components/tax-alphonic/tools/calculators.jsx
 - components/tax-alphonic/tools/toolDefaults.js
 - components/tax-alphonic/blocks/ButtonLabel.jsx
+- components/tax-alphonic/blocks/ExtraBlocks.jsx
 - components/tax-alphonic/blocks/commonBlockTypes.js
+- components/tax-alphonic/journey/JourneySections.jsx
+- components/tax-alphonic/blocks/LayoutGroup.jsx
+- components/tax-alphonic/blocks/layoutSections.js
+- components/tax-alphonic/blocks/WaveImage.jsx
+- components/tax-alphonic/journey/journeyBlockTypes.js
+- components/tax-alphonic/tools/ToolSections.jsx
+- components/tax-alphonic/tools/toolBlockTypes.js
+- components/layout/CommandPalette.jsx
+- content/services/catalog.json
+- components/ui/DuotoneIcons.jsx
 - components/tax-alphonic/pages/ApiPage.jsx
 - components/seo/JsonLd.jsx
-- components/tax-alphonic/journey/JourneySections.jsx
-- components/tax-alphonic/tools/ToolSections.jsx
 - components/tax-alphonic/landing/LandingPage.jsx
 - components/tax-alphonic/forms/FormPopupHost.jsx
 - components/tax-alphonic/landing/LandingChrome.jsx
@@ -40,6 +52,7 @@ Last sync: 2026-10-30T12:42:15.803Z
 - components/tax-alphonic/landing/landingBlockTypes.js
 - components/tax-alphonic/landing/landingThemes.js
 - app/globals.css
+- components/tax-alphonic/ta-base.css
 - components/tax-alphonic/forms/math-captcha.css
 - components/tax-alphonic/home/home-page.css
 - components/tax-alphonic/blocks/blocks.css
@@ -49,3 +62,7 @@ Last sync: 2026-10-30T12:42:15.803Z
 - components/tax-alphonic/forms/form-popup.css
 - components/tax-alphonic/landing/landing.css
 - components/tax-alphonic/landing/landing-themes.css
+- components/tax-alphonic/blog/blog.css
+- components/tax-alphonic/explore/explore.css
+- components/tax-alphonic/blocks/extra-blocks.css
+- components/tax-alphonic/servicesplus-theme.css

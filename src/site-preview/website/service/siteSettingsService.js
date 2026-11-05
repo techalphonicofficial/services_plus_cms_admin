@@ -1,3 +1,4 @@
+import { SITE_NAME } from "@/lib/siteConfig";
 import { apiClient } from "@/service/apiClient";
 import { normalizeAssetUrl } from "@/service/servicePageService";
 import { cache } from "react";
@@ -55,7 +56,7 @@ function fullAddress(address, contact) {
 function branding(org) {
   const logo = asset(org.logo);
   return {
-    name: text(org.shortName || org.organizationName) || "Tax Alphonic",
+    name: text(org.shortName || org.organizationName) || SITE_NAME,
     tagline: text(org.tagline),
     logo: logo || FALLBACK_LOGO,
     lightLogo: asset(org.lightLogo) || logo || FALLBACK_LOGO,

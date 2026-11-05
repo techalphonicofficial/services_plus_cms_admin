@@ -87,7 +87,7 @@ export function LandingFooterBar({ payload = {}, branding = {}, contact = {} }) 
   const year = String(new Date().getFullYear());
   const copyright = text(payload.copyright || "© {year} {company}. All rights reserved.")
     .replace(/\{year\}/g, year)
-    .replace(/\{company\}/g, branding.name || "Tax Alphonic");
+    .replace(/\{company\}/g, branding.name || "Services Plus");
   const light = payload.theme === "light";
   // "minimal" (default): logo on the left, small contact details on the right, one thin bottom row;
   // "center": everything centred in one column; "columns": logo | links | contact.

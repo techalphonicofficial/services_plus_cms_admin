@@ -34,6 +34,9 @@ export const COMMON_BLOCKS = [
   { type: 'CommonCarousel', label: 'Carousel / Slider', icon: 'bi-collection-play' },
   { type: 'CommonBlogPosts', label: 'Latest Blog Posts', icon: 'bi-journal-richtext' },
   { type: 'CommonAnchorNav', label: 'Section Tabs (sticky)', icon: 'bi-menu-button-wide' },
+  // Old homepage designs (website FaqSection / LatestBlogs).
+  { type: 'CommonFaqSplit', label: 'FAQ (heading + questions side by side)', icon: 'bi-question-square' },
+  { type: 'CommonSplitCards', label: 'Cards on two sides', icon: 'bi-layout-three-columns' },
 ];
 
 export const isCommonType = (type) => COMMON_BLOCKS.some(b => b.type === type);
@@ -48,7 +51,7 @@ const COLUMNS = (fallback) => ({ key: 'columns', label: 'Columns (desktop)', typ
 
 /** Field schema per block, rendered by SchemaFields.jsx. */
 export const COMMON_SCHEMAS = {
-  CommonText: [KICKER, HEADING, TEXT, ALIGN, ANCHOR, { key: 'primaryButton', label: 'Primary button', type: 'button' }, { key: 'secondaryButton', label: 'Secondary button', type: 'button' }],
+  CommonText: [KICKER, HEADING, TEXT, { ...ALIGN, label: 'Text alignment', options: [{ value: 'left', label: 'Left' }, { value: 'center', label: 'Centre' }, { value: 'right', label: 'Right' }, { value: 'justify', label: 'Justified (paragraphs)' }] }, ANCHOR, { key: 'primaryButton', label: 'Primary button', type: 'button' }, { key: 'secondaryButton', label: 'Secondary button', type: 'button' }],
   CommonImageText: [
     { key: 'image', label: 'Image', type: 'image', hint: imageHint('blockImage') },
     { key: 'imageSide', label: 'Image side', type: 'select', options: [{ value: 'left', label: 'Image on the left' }, { value: 'right', label: 'Image on the right' }] },
@@ -139,6 +142,8 @@ export const COMMON_SCHEMAS = {
     { key: 'points', label: 'Points (icon, title, text)', type: 'list', addLabel: 'Add point', fields: [{ key: 'icon', placeholder: 'Icon', width: 'col-md-2' }, { key: 'title', placeholder: 'Title', width: 'col-md-4' }, { key: 'text', placeholder: 'Text', width: 'col-md-6' }] },
     { key: 'chips', label: 'Trust chips', type: 'list', addLabel: 'Add chip', fields: [{ key: 'icon', placeholder: 'Icon', width: 'col-md-3' }, { key: 'text', placeholder: 'e.g. Callback within hours', width: 'col-md-9' }] },
     { key: 'rating', label: 'Rating line (after ★★★★★)', type: 'text', width: 'col-12', placeholder: '4.8/5 from 2,100+ consultations' },
+    { key: 'primaryButton', label: 'Button 1 (optional)', type: 'button' },
+    { key: 'secondaryButton', label: 'Button 2 (optional)', type: 'button' },
     { key: 'formId', label: 'CMS form', type: 'form', hint: 'Shown in the card. Leads go to CRM → Leads.' },
     { key: 'formSide', label: 'Form side', type: 'select', options: [{ value: 'right', label: 'Form on the right' }, { value: 'left', label: 'Form on the left' }] },
     { key: 'formHeading', label: 'Form card heading', type: 'text' },
@@ -327,6 +332,50 @@ export const COMMON_SCHEMAS = {
     { key: 'items', label: 'Tabs (optional)', type: 'list', addLabel: 'Add tab', fields: [{ key: 'label', placeholder: 'Tab name (e.g. Documents)', width: 'col-md-6' }, { key: 'anchor', placeholder: 'Section anchor id (e.g. documents)', width: 'col-md-6' }] },
     { key: 'placementNote', type: 'note', label: 'Leave the tabs empty to list every section of the page that has an Anchor id and a heading. Put it under the hero (Top); it sticks under the site header while the page scrolls.' },
   ],
+  // FAQ section: heading, text and a button on one side, numbered questions on the other.
+  CommonFaqSplit: [
+    { key: 'headSide', label: 'Heading side', type: 'select', options: [{ value: 'left', label: 'Heading on the left' }, { value: 'right', label: 'Heading on the right' }] },
+    KICKER, HEADING, TEXT,
+    { key: 'button', label: 'Button under the text (optional)', type: 'button' },
+    { key: 'buttonStyle', label: 'Button style', type: 'select', options: [{ value: 'outline', label: 'Outline' }, { value: 'solid', label: 'Solid' }] },
+    { key: 'firstOpen', label: 'First answer open', type: 'select', options: [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }] },
+    { key: 'items', label: 'Questions', type: 'list', addLabel: 'Add question', fields: [{ key: 'question', placeholder: 'Question', width: 'col-12' }, { key: 'answer', placeholder: 'Answer', width: 'col-12', textarea: true }] },
+    ANCHOR,
+    { key: 'placementNote', type: 'note', label: 'Wide block: full width or main content. Leave the kicker, heading, text and button empty to show only the questions.' },
+  ],
+  // Any number of cards on each side; the sides are centred vertically against each other.
+  CommonSplitCards: [
+    KICKER, HEADING, SUB,
+    { key: 'link', label: 'Link next to the heading (e.g. Explore all articles → /blog)', type: 'button' },
+    { key: 'ratio', label: 'Side widths', type: 'select', options: [{ value: '50', label: 'Equal (50 / 50)' }, { value: '60', label: 'Left wider (60 / 40)' }, { value: '40', label: 'Right wider (40 / 60)' }] },
+    { key: 'fit', label: 'Card height', type: 'select', options: [{ value: 'stretch', label: 'Same height as the other side (content centred)' }, { value: 'center', label: 'Own height, centred' }] },
+    { key: 'left', label: 'Left side cards', type: 'list', addLabel: 'Add card on the left', fields: [
+        { key: 'number', placeholder: 'Number (01)', width: 'col-md-2' },
+        { key: 'tag', placeholder: 'Tag (Trademark)', width: 'col-md-3' },
+        { key: 'date', placeholder: 'Date (2026-02-15)', width: 'col-md-3' },
+        { key: 'icon', placeholder: 'Icon / image', width: 'col-md-4' },
+        { key: 'meta', placeholder: 'Small line above the title (Published … · Editorial)', width: 'col-12' },
+        { key: 'title', placeholder: 'Title', width: 'col-md-6' },
+        { key: 'url', placeholder: 'Link (/blog-detail/…)', width: 'col-md-6' },
+        { key: 'text', placeholder: 'Text', width: 'col-12', textarea: true },
+        { key: 'note', placeholder: 'Footer note (Compliance Guide)', width: 'col-md-6' },
+        { key: 'linkText', placeholder: 'Link text (Read briefing)', width: 'col-md-6' },
+      ] },
+    { key: 'right', label: 'Right side cards', type: 'list', addLabel: 'Add card on the right', fields: [
+        { key: 'number', placeholder: 'Number (01)', width: 'col-md-2' },
+        { key: 'tag', placeholder: 'Tag (Trademark)', width: 'col-md-3' },
+        { key: 'date', placeholder: 'Date (2026-02-15)', width: 'col-md-3' },
+        { key: 'icon', placeholder: 'Icon / image', width: 'col-md-4' },
+        { key: 'meta', placeholder: 'Small line above the title (Published … · Editorial)', width: 'col-12' },
+        { key: 'title', placeholder: 'Title', width: 'col-md-6' },
+        { key: 'url', placeholder: 'Link (/blog-detail/…)', width: 'col-md-6' },
+        { key: 'text', placeholder: 'Text', width: 'col-12', textarea: true },
+        { key: 'note', placeholder: 'Footer note (Compliance Guide)', width: 'col-md-6' },
+        { key: 'linkText', placeholder: 'Link text (Read briefing)', width: 'col-md-6' },
+      ] },
+    ANCHOR,
+    { key: 'placementNote', type: 'note', label: 'A side with one card shows it larger, in the middle. With cards on one side only, they use the full width. Empty fields are not shown.' },
+  ],
 };
 
 // Starting content, so a new block shows something sensible straight away.
@@ -354,6 +403,7 @@ const DEFAULTS = {
     ],
     chips: [{ icon: '🔒', text: '100% confidential' }, { icon: '🇮🇳', text: 'Across India' }],
     rating: '4.8/5 from 2,100+ consultations',
+    primaryButton: { text: '', url: '' }, secondaryButton: { text: '', url: '' },
     formId: '', formSide: 'right', formHeading: 'Request a callback', formSub: 'Share your details and we will call you back.', formNote: '🔒 Your details are safe. We never spam.', anchorId: '',
   },
   CommonTextSide: {
@@ -475,6 +525,29 @@ const DEFAULTS = {
     button: { text: 'View all articles', url: '/blog', icon: '→', iconSide: 'right' }, anchorId: '',
   },
   CommonAnchorNav: { label: 'On this page', progress: 'yes', items: [] },
+  CommonFaqSplit: {
+    headSide: 'left', kicker: 'Statutory clarifications', heading: 'Frequently Asked Questions',
+    text: 'Answers to common questions regarding company setup, taxation, licenses, and legal compliance.',
+    button: { text: 'Ask an advisor on WhatsApp', url: 'https://wa.me/918800028794' }, buttonStyle: 'outline', firstOpen: 'yes',
+    items: [
+      { question: 'What documents are required to register a Private Limited Company in India?', answer: 'PAN and Aadhaar of the directors, an identity proof, a recent bank statement or utility bill as address proof, and proof of the registered office (electricity bill with an NOC from the owner).' },
+      { question: 'How long does GST registration take through Services Plus?', answer: 'Usually 3 to 7 working days once the documents are submitted and the Aadhaar OTP authentication is done.' },
+      { question: 'Why is Trademark Registration critical for my brand?', answer: 'It gives you exclusive legal ownership of your brand name, logo or slogan across India and stops others from copying it.' },
+    ],
+    anchorId: '',
+  },
+  CommonSplitCards: {
+    kicker: 'Regulatory research & guides', heading: 'Latest Insights & Compliance Guides', sub: '',
+    link: { text: 'Explore all articles', url: '/blog', icon: '→', iconSide: 'right' }, ratio: '50', fit: 'stretch',
+    left: [
+      { number: '01', tag: 'Trademark', date: '', icon: '🛡️', meta: 'Published 2026-02-15 · Services Plus Editorial', title: 'Trademark Registration: Protecting Your Brand', url: '/blog', text: 'Learn why safeguarding your trademark is essential for protecting your business reputation and securing exclusive rights.', note: 'Intellectual Property Act, 1999', linkText: 'Read briefing' },
+    ],
+    right: [
+      { number: '02', tag: 'Taxation', date: '2026-02-10', icon: '🧾', meta: '', title: 'Tax Information and Services: A Comprehensive Guide', url: '/blog', text: 'A breakdown of direct and indirect taxes in India, key filing schedules and TDS obligations.', note: 'Compliance Guide', linkText: 'Read briefing' },
+      { number: '03', tag: 'Income Tax', date: '2026-02-05', icon: '📅', meta: '', title: 'Demystifying Income Tax Services', url: '/blog', text: 'Income tax return categories, scrutiny notices and lawful deductions explained.', note: 'Compliance Guide', linkText: 'Read briefing' },
+    ],
+    anchorId: '',
+  },
 };
 
 export const commonDefaultPayload = (type) => JSON.parse(JSON.stringify(DEFAULTS[type] || {}));

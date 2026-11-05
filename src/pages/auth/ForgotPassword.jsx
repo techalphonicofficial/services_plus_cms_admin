@@ -48,7 +48,7 @@ const ForgotPassword = () => {
                   <strong>Development Mode:</strong> Since no real email server is configured, click the link below to reset your password:
                   <div className="mt-2 text-break">
                     <Link to={`/reset-password?token=${resetToken}`} className="fw-bold">
-                      http://192.168.0.166:5173/reset-password?token={resetToken}
+                      http://192.168.0.167:5173/reset-password?token={resetToken}
                     </Link>
                   </div>
                 </div>

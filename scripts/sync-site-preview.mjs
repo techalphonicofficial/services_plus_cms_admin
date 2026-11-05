@@ -1,7 +1,7 @@
 // Copies the website's page renderers into src/site-preview/website so the admin's Live Preview
 // renders drafts with the real website code, without the website running anywhere.
 //
-//   npm run sync-preview                      (website at ../taxalphonic-dynamic-frontend)
+//   npm run sync-preview                      (website at ../../Documents/GitHub/services_plus_fr/src)
 //   SITE_SOURCE_DIR=/path/to/website npm run sync-preview
 //
 // Run it after changing the website's blocks or their CSS. It starts from ENTRIES, follows every
@@ -13,10 +13,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const adminDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const siteDir = path.resolve(adminDir, process.env.SITE_SOURCE_DIR || '../taxalphonic-dynamic-frontend');
+const siteDir = path.resolve(adminDir, process.env.SITE_SOURCE_DIR || '../../Documents/GitHub/services_plus_fr/src');
 const outDir = path.join(adminDir, 'src/site-preview/website');
 
 const ENTRIES = [
+  // First: the website stylesheets in the order app/layout.jsx loads them, servicesplus-theme.css last.
+  'components/tax-alphonic/siteStyles.js',
   'service/servicePreview.js',
   'components/tax-alphonic/pages/ApiServicePage.jsx',
   'components/tax-alphonic/pages/ApiPage.jsx',
@@ -29,7 +31,7 @@ const ENTRIES = [
 const SHIMMED = new Set(['service/apiClient.js', 'service/formSubmission.js']);
 const GLOBAL_CSS = 'app/globals.css';
 
-if (!fs.existsSync(path.join(siteDir, 'package.json'))) {
+if (!fs.existsSync(path.join(siteDir, 'components/tax-alphonic'))) {
   console.error(`Website not found at ${siteDir}. Set SITE_SOURCE_DIR to the website folder.`);
   process.exit(1);
 }

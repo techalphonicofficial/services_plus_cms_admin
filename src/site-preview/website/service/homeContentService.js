@@ -2,6 +2,7 @@ import { apiClient } from "@/service/apiClient";
 import { normalizeAssetUrl } from "@/service/servicePageService";
 import { cache } from "react";
 import { getPageBySlug } from "@/service/pageService";
+import { getTools } from "@/service/toolsService";
 
 // Records from the CMS content modules (Testimonials, Team Members, FAQs, Banners,
 // Branches, Partners & Clients, Global Presence, Portfolio) for the homepage blocks that show them.
@@ -157,8 +158,8 @@ async function attachTools(sections) {
     : s));
 }
 
-// Where a blog post opens on this website (Tax Alphonic: /blog/<slug>, Services Plus: /blog-detail/<slug>).
-export const BLOG_POST_BASE = "/blog/";
+// Where a blog post opens on this website (/blog-detail/<slug>, lib/siteConfig.js).
+export const BLOG_POST_BASE = "/blog-detail/";
 
 /**
  * Latest Blog Posts blocks (CommonBlogPosts): the newest live posts (GET /api/v1/blogs/public,
@@ -192,8 +193,15 @@ async function attachBlogPosts(sections) {
   }));
 }
 
+/** ToolsGrid / ToolMore outside a tool page: the published tool pages. */
+async function attachToolLists(sections) {
+  if (!sections.some((s) => s.type === "ToolsGrid" || s.type === "ToolMore")) return sections;
+  const tools = await getTools();
+  return sections.map((s) => ((s.type === "ToolsGrid" || s.type === "ToolMore") && !s.config?.previewSample ? { ...s, payload: { ...s.payload, tools } } : s));
+}
+
 export async function attachModuleContent(rawSections) {
-  const sections = await attachBlogPosts(await attachTools(rawSections));
+  const sections = await attachToolLists(await attachBlogPosts(await attachTools(rawSections)));
   const needed = new Set(
     sections
       .map((s) => MODULE_BLOCKS[s.type])
@@ -205,6 +213,8 @@ export async function attachModuleContent(rawSections) {
   return sections.map((section) => {
     const block = MODULE_BLOCKS[section.type];
     if (!block) return section;
+    // Admin palette preview: its sample records stay (blockSamples.js).
+    if (section.config?.previewSample) return section;
     const payload = section.payload || {};
     if (block.optional && payload.source === "manual") return section;
 
